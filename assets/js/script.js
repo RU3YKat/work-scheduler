@@ -7,7 +7,6 @@ var dayName = today.getDay();
 var dayList = ["Sunday","Monday","Tuesday","Wednesday","Thursday",
 "Friday","Saturday"];
 
-
 // get current month by name
 var monthName = today.getMonth();    
 var monthList = ["January","February","March","April","May","June","July","August",
@@ -22,8 +21,8 @@ var dateTime = todaysDate + ' ' + time;
 var actHour = Math.floor(today.getHours());
 
 console.dir(actHour);
-
 console.dir(dateTime);
+
 document.getElementById("currentDay").textContent = dayList[dayName] + ", " + monthList[monthName] + " " + date;
 
 // set scheduler ref-time for time comparison
