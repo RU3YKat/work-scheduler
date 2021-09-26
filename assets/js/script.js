@@ -1,3 +1,6 @@
+var actHour="";
+var assignHour="";
+
 // get current date in day, month date
 var today = new Date();
 var date =  today.getDate();
@@ -18,15 +21,31 @@ var todaysDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + toda
 // get current time, for past/present/future assignment ONLY
 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 var dateTime = todaysDate + ' ' + time;
-var actHour = Math.floor(today.getHours());
 
 console.dir(actHour);
 console.dir(dateTime);
 
 document.getElementById("currentDay").textContent = dayList[dayName] + ", " + monthList[monthName] + " " + date;
 
-// set scheduler ref-time for time comparison
+var silly = "9";
+var sillyTry = parseInt(silly);
 
+console.dir(sillyTry);
+console.log(typeof(sillyTry));
+
+// set scheduler ref-time for time comparison
+$('div#id')
+
+// USE JQUERY EACH() INSTEAD!  function compareTime() {
+//     var actHour = Math.floor(today.getHours());
+//     for (i = 8; i <= 16; i++) {
+
+//     }
+    
+//     var refTime = document.getElementsByName("ref-time");
+//     console.dir(refTime);
+// };
+// compareTime();
     // cycling through ref-time to compare and assign past/present/future classes
 
 
