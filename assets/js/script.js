@@ -1,3 +1,5 @@
+var localStorageId = "scheduleData";
+
 var actHour="";
 var assignHour="";
 let currentHourIndex= 0;
@@ -20,6 +22,7 @@ var monthList = ["January", "February", "March", "April", "May", "June", "July",
 var todaysDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
 // get current time, for past/present/future assignment ONLY
+var hours = today.getHours();
 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 var dateTime = todaysDate + ' ' + time;
 
@@ -42,17 +45,63 @@ var timeBlock = [
 ];
 
 // dynamically create hour elements for each time-block
-var assignHour = $('#hour[i]');
+var assignHour = $('.time-block');
+
+var foundPresent = false;
+
+var data = getStorage(localStorageId);
 
 
 // need HELP here understanding syntax to associate timeBlock.assign value to #hour[i]
 // and then to use comparisons to addClass(), past/present/future to each hour
-$.each(timeBlock, function (i, value) {
-    assignHour[value.id] = value.assign;
-    if (assignHour > actHour) {
-        $()
+$.each(assignHour, function (i, hour) {
+    //iterate through each hour
+  	//reminder: hours is already defined as today.getHours()
+  	//if the hour id contains the current hour, then set its class to "present"
+  	if (hour.id === "hour" + hours){ //if hours is 13, then "hour" + hours becomes "hour13"
+     	 $(hour).addClass("present");
+      	foundPresent = true;
     }
+  	//if it's not...
+  	else {
+  		//if we haven't yet gotten to current hour, then set its class to "past"
+  		if (!foundPresent){
+        	$(hour).addClass("past");
+        }
+  		//else set its class to "future"
+      	else {
+        	$(hour).addClass("future");
+        }
+    }
+    // console.log(hour);
+
+    // deal with localStorage data
+  	if (data[hour.id]) {
+        console.log(data[hour.id]);
+
+    	$(hour).find("textarea").val (data[hour.id]);
+    }
+
+    $(hour).find("button").on("click", function(){
+        var appt = $(hour).find("textarea").val();
+        data[hour.id] = appt;
+        setStorage(localStorageId, data);
+    });
 });
+
+
+function setStorage(id, data){
+	localStorage.setItem(id, JSON.stringify(data));
+}
+
+function getStorage(id){
+	let data = localStorage.getItem(id);
+  	//if no data have been stored yet, then data will be undefined
+  	//change undefined to an empty object instead
+  	if (!data) return {};
+  	//localStorage can only store STRINGS, not objects
+  	return JSON.parse(data);
+}
 
 
 // function setHour() {
@@ -77,7 +126,7 @@ $.each(timeBlock, function (i, value) {
 // compareTime();
     // cycling through ref-time to compare and assign past/present/future classes
 
-// need HELP saving to localStorage and fetching saved array
+// need HELP saving to localStorage and reloading saved array
 // save event text with save button (set each hour button to have unique id to store and retrieve)
     // save to local storage
 
